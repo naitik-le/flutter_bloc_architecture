@@ -51,11 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
             tabs: const [
               Tab(
                 icon: Icon(Icons.rocket_launch_rounded, size: 20),
-                text: 'Rockets',
+                text: 'Rockets 1',
               ),
               Tab(
                 icon: Icon(Icons.flight_takeoff_rounded, size: 20),
-                text: 'Launches',
+                text: 'Launches 2',
               ),
             ],
           ),
