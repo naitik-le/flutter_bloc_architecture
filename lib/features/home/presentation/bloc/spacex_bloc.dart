@@ -32,17 +32,21 @@ class SpacexBloc extends Bloc<SpacexEvent, SpacexState> {
     final response = await _repository.getRockets();
 
     if (response.status == ApiStatus.error) {
-      emit(state.copyWith(
-        isLoading: false,
-        isFailed: true,
-        errorMsg: response.errorMsg ?? 'Failed to fetch rockets',
-      ),);
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isFailed: true,
+          errorMsg: response.errorMsg ?? 'Failed to fetch rockets',
+        ),
+      );
     } else {
-      emit(state.copyWith(
-        isLoading: false,
-        isFailed: false,
-        rockets: response.data ?? [],
-      ),);
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isFailed: false,
+          rockets: response.data ?? [],
+        ),
+      );
     }
   }
 
@@ -55,17 +59,21 @@ class SpacexBloc extends Bloc<SpacexEvent, SpacexState> {
     final response = await _repository.getLaunches();
 
     if (response.status == ApiStatus.error) {
-      emit(state.copyWith(
-        isLoading: false,
-        isFailed: true,
-        errorMsg: response.errorMsg ?? 'Failed to fetch launches',
-      ),);
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isFailed: true,
+          errorMsg: response.errorMsg ?? 'Failed to fetch launches',
+        ),
+      );
     } else {
-      emit(state.copyWith(
-        isLoading: false,
-        isFailed: false,
-        launches: response.data ?? [],
-      ),);
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isFailed: false,
+          launches: response.data ?? [],
+        ),
+      );
     }
   }
 }

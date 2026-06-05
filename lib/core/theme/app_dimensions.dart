@@ -51,14 +51,15 @@ class AppDimensions {
   static const double maxContentWidth = 600.0;
 
   // ── Carousel Fractions ──
-  static const double _carouselMobile  = 0.30;
-  static const double _carouselTablet  = 0.38;
+  static const double _carouselMobile = 0.30;
+  static const double _carouselTablet = 0.38;
   static const double _carouselDesktop = 0.45;
 
   // ── Utility Methods ──
 
   /// Returns `true` if the current screen width is mobile-sized.
-  static bool isMobile(BuildContext context) => MediaQuery.sizeOf(context).width < mobileBreakpoint;
+  static bool isMobile(BuildContext context) =>
+      MediaQuery.sizeOf(context).width < mobileBreakpoint;
 
   /// Returns `true` if the current screen width is tablet-sized.
   static bool isTablet(BuildContext context) {
@@ -67,13 +68,14 @@ class AppDimensions {
   }
 
   /// Returns `true` if the current screen width is desktop-sized.
-  static bool isDesktop(BuildContext context) => MediaQuery.sizeOf(context).width >= desktopBreakpoint;
+  static bool isDesktop(BuildContext context) =>
+      MediaQuery.sizeOf(context).width >= desktopBreakpoint;
 
   /// Returns responsive carousel height based on screen size.
   static double carouselHeight(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     if (isDesktop(context)) return size.height * _carouselDesktop;
-    if (isTablet(context))  return size.height * _carouselTablet;
+    if (isTablet(context)) return size.height * _carouselTablet;
     return size.height * _carouselMobile;
   }
 }

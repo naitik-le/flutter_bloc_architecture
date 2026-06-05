@@ -46,8 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
             indicatorColor: AppColors.secondary,
             indicatorWeight: 3,
             labelColor: Theme.of(context).colorScheme.onSurface,
-            unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
-            labelStyle: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+            unselectedLabelColor:
+                Theme.of(context).colorScheme.onSurfaceVariant,
+            labelStyle: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(fontWeight: FontWeight.w600),
             tabs: const [
               Tab(
                 icon: Icon(Icons.rocket_launch_rounded, size: 20),
@@ -82,7 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (state.isFailed && state.rockets.isEmpty) {
       return AppErrorWidget(
         message: state.errorMsg ?? 'Failed to load rockets',
-        onRetry: () => context.read<SpacexBloc>().add(const FetchRocketsEvent()),
+        onRetry: () =>
+            context.read<SpacexBloc>().add(const FetchRocketsEvent()),
       );
     }
 
@@ -97,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
       color: AppColors.secondary,
       child: ListView.builder(
         padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: 80),
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
         itemCount: state.rockets.length,
         itemBuilder: (context, index) {
           return _RocketCard(rocket: state.rockets[index]);
@@ -114,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (state.isFailed && state.launches.isEmpty) {
       return AppErrorWidget(
         message: state.errorMsg ?? 'Failed to load launches',
-        onRetry: () => context.read<SpacexBloc>().add(const FetchLaunchesEvent()),
+        onRetry: () =>
+            context.read<SpacexBloc>().add(const FetchLaunchesEvent()),
       );
     }
 
@@ -123,7 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     // Show launches in reverse chronological order (latest first)
-    final sortedLaunches = List<LaunchModel>.from(state.launches)..sort((a, b) => b.dateUnix.compareTo(a.dateUnix));
+    final sortedLaunches = List<LaunchModel>.from(state.launches)
+      ..sort((a, b) => b.dateUnix.compareTo(a.dateUnix));
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -132,7 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
       color: AppColors.secondary,
       child: ListView.builder(
         padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: 80),
-        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+        physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics()),
         itemCount: sortedLaunches.length,
         itemBuilder: (context, index) {
           return _LaunchCard(launch: sortedLaunches[index]);
@@ -211,7 +220,9 @@ class _RocketCard extends StatelessWidget {
                           vertical: AppSpacing.xxxs,
                         ),
                         decoration: BoxDecoration(
-                          color: rocket.active ? AppColors.success.withValues(alpha: 0.9) : AppColors.error.withValues(alpha: 0.9),
+                          color: rocket.active
+                              ? AppColors.success.withValues(alpha: 0.9)
+                              : AppColors.error.withValues(alpha: 0.9),
                           borderRadius: AppRadius.circularFull,
                         ),
                         child: Text(
@@ -389,7 +400,8 @@ class _LaunchCard extends StatelessWidget {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    if (launch.details != null && launch.details!.isNotEmpty) ...[
+                    if (launch.details != null &&
+                        launch.details!.isNotEmpty) ...[
                       const SizedBox(height: AppSpacing.xxs),
                       Text(
                         launch.details!,
@@ -421,7 +433,8 @@ class _LaunchCard extends StatelessWidget {
 
   Widget _buildStatusIcon(BuildContext context) {
     if (launch.upcoming) {
-      return const Icon(Icons.hourglass_top_rounded, size: 18, color: AppColors.info);
+      return const Icon(Icons.hourglass_top_rounded,
+          size: 18, color: AppColors.info);
     } else if (launch.success == true) {
       return const Icon(
         Icons.check_circle_rounded,

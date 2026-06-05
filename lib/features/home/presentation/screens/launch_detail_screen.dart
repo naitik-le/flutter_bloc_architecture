@@ -27,7 +27,8 @@ class LaunchDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: AppSpacing.xxl),
+          padding: const EdgeInsets.all(AppSpacing.md)
+              .copyWith(bottom: AppSpacing.xxl),
           child: Column(
             spacing: AppSpacing.xl,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +53,8 @@ class LaunchDetailScreen extends StatelessWidget {
             width: 160,
             height: 160,
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              color: theme.colorScheme.surfaceContainerHighest
+                  .withValues(alpha: 0.5),
               shape: BoxShape.circle,
             ),
             child: launch.patchLarge != null
@@ -121,7 +123,8 @@ class LaunchDetailScreen extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+              color: theme.colorScheme.surfaceContainerHighest
+                  .withValues(alpha: 0.4),
               borderRadius: AppRadius.circularMd,
             ),
             child: Text(
@@ -185,7 +188,8 @@ class LaunchDetailScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-                          if (failure.time != null && failure.altitude != null) const SizedBox(width: AppSpacing.md),
+                          if (failure.time != null && failure.altitude != null)
+                            const SizedBox(width: AppSpacing.md),
                           if (failure.altitude != null) ...[
                             Icon(
                               Icons.flight_rounded,

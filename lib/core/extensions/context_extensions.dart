@@ -64,12 +64,74 @@ extension ContextExtensions on BuildContext {
 
   // ── Snackbar ──
 
-  /// Show a [SnackBar] with the given [message].
-  void showSnackBar(String message, {Duration? duration}) {
+  /// Show a premium styled custom [SnackBar] with [message].
+  void showSnackBar(
+    String message, {
+    SnackBarType type = SnackBarType.info,
+    Duration? duration,
+  }) {
+    final theme = Theme.of(this);
+    Color backgroundColor;
+    IconData icon;
+
+    switch (type) {
+      case SnackBarType.success:
+        backgroundColor = const Color(0xFF527E5A);
+        icon = Icons.check_circle_rounded;
+        break;
+      case SnackBarType.error:
+        backgroundColor = const Color(0xFFBC4A3C);
+        icon = Icons.cancel_rounded;
+        break;
+      case SnackBarType.warning:
+        backgroundColor = const Color(0xFFD4A373);
+        icon = Icons.warning_rounded;
+        break;
+      case SnackBarType.info:
+        backgroundColor = theme.colorScheme.primary;
+        icon = Icons.info_rounded;
+        break;
+    }
+
+    ScaffoldMessenger.of(this).removeCurrentSnackBar();
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
-        content: Text(message),
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
         duration: duration ?? const Duration(seconds: 3),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: EdgeInsets.zero,
+        content: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: backgroundColor.withValues(alpha: 0.35),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: Colors.white, size: 22),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -78,4 +140,19 @@ extension ContextExtensions on BuildContext {
 
   /// Unfocus any currently focused input field.
   void unfocus() => FocusScope.of(this).unfocus();
+}
+
+/// Custom SnackBar types for visual styling.
+enum SnackBarType {
+  /// Success notification.
+  success,
+
+  /// Error notification.
+  error,
+
+  /// Warning notification.
+  warning,
+
+  /// General info notification.
+  info,
 }

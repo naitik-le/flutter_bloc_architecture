@@ -61,7 +61,19 @@ class AuthFormField extends StatefulWidget {
 }
 
 class _AuthFormFieldState extends State<AuthFormField> {
-  bool _obscureText = true;
+  late final ValueNotifier<bool> _obscureTextNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureTextNotifier = ValueNotifier<bool>(true);
+  }
+
+  @override
+  void dispose() {
+    _obscureTextNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,48 +91,52 @@ class _AuthFormFieldState extends State<AuthFormField> {
           ),
           const SizedBox(height: 6),
         ],
-        TextFormField(
-          controller: widget.controller,
-          obscureText: widget.isPassword ? _obscureText : false,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction,
-          validator: widget.validator,
-          onChanged: widget.onChanged,
-          focusNode: widget.focusNode,
-          enabled: widget.enabled,
-          style: AppTextStyles.bodyMedium,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            prefixIcon: widget.prefixIcon != null
-                ? Icon(
-                    widget.prefixIcon,
-                    size: 20,
-                    color: Theme.of(context).colorScheme.outline,
-                  )
-                : null,
-            suffixIcon: widget.isPassword
-                ? IconButton(
-                    icon: Icon(
-                      _obscureText
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      size: 20,
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  )
-                : null,
-            border: OutlineInputBorder(
-              borderRadius: AppRadius.circularMd,
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.outlineVariant,
+        ValueListenableBuilder<bool>(
+          valueListenable: _obscureTextNotifier,
+          builder: (context, obscureText, _) {
+            return TextFormField(
+              controller: widget.controller,
+              obscureText: widget.isPassword ? obscureText : false,
+              keyboardType: widget.keyboardType,
+              textInputAction: widget.textInputAction,
+              validator: widget.validator,
+              onChanged: widget.onChanged,
+              focusNode: widget.focusNode,
+              enabled: widget.enabled,
+              style: AppTextStyles.bodyMedium,
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                prefixIcon: widget.prefixIcon != null
+                    ? Icon(
+                        widget.prefixIcon,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.outline,
+                      )
+                    : null,
+                suffixIcon: widget.isPassword
+                    ? IconButton(
+                        icon: Icon(
+                          obscureText
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 20,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        onPressed: () {
+                          _obscureTextNotifier.value =
+                              !_obscureTextNotifier.value;
+                        },
+                      )
+                    : null,
+                border: OutlineInputBorder(
+                  borderRadius: AppRadius.circularMd,
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ],
     );

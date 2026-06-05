@@ -1,3 +1,4 @@
+import 'package:flutter_bloc_architecture/core/theme/theme_cubit.dart';
 import 'package:flutter_bloc_architecture/features/home/presentation/bloc/carousel_cubit.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -18,6 +19,10 @@ import 'package:flutter_bloc_architecture/features/home/presentation/bloc/dashbo
 import 'package:flutter_bloc_architecture/features/home/domain/repositories/spacex_repository.dart';
 import 'package:flutter_bloc_architecture/features/home/domain/repositories/spacex_repository_impl.dart';
 import 'package:flutter_bloc_architecture/features/home/presentation/bloc/spacex_bloc.dart';
+import 'package:flutter_bloc_architecture/features/profile/data/datasource/profile_local_data_source.dart';
+import 'package:flutter_bloc_architecture/features/profile/domain/repositories/profile_repository.dart';
+import 'package:flutter_bloc_architecture/features/profile/data/repository_impl/profile_repository_impl.dart';
+import 'package:flutter_bloc_architecture/features/profile/presentation/bloc/profile_bloc.dart';
 
 /// Global service locator instance.
 final GetIt getIt = GetIt.instance;
@@ -67,17 +72,29 @@ Future<void> setupDependencies() async {
     () => AuthRepositoryImpl(),
   );
 
+  // ── Profile Feature ──
+  // Data Sources
+  getIt.registerLazySingleton<ProfileLocalDataSource>(
+    () => ProfileLocalDataSource(getIt<LocalStorageService>()),
+  );
+  // Repositories
+  getIt.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(getIt<ProfileLocalDataSource>()),
+  );
+
   // ── Home Feature (SpaceX) ──
   // Repositories
   getIt.registerLazySingleton<SpacexRepository>(
     () => SpacexRepositoryImpl(),
   );
 
-  // BLoCs
+  // BLoCs / Cubits
+  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
   getIt.registerFactory<AuthBloc>(() => AuthBloc());
   getIt.registerFactory<DashboardCubit>(() => DashboardCubit());
   getIt.registerFactory<SpacexBloc>(() => SpacexBloc());
   getIt.registerFactory<CarouselCubit>(() => CarouselCubit());
+  getIt.registerFactory<ProfileBloc>(() => ProfileBloc());
 
   AppLogger.info('✅ Dependencies setup complete');
 }

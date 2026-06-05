@@ -31,8 +31,9 @@ class AuthRepositoryImpl extends AuthRepository {
 
       final data = response.data as Map<String, dynamic>? ?? {};
       final token = data['token'] as String?;
+      final localStorage = GetIt.I<LocalStorageService>();
+      await localStorage.setString('auth_user_email', email);
       if (token != null) {
-        final localStorage = GetIt.I<LocalStorageService>();
         await localStorage.setString(StorageConstants.token, token);
         await localStorage.setBool(StorageConstants.isLoggedIn, value: true);
       }
@@ -72,8 +73,9 @@ class AuthRepositoryImpl extends AuthRepository {
       );
       final data = response.data as Map<String, dynamic>? ?? {};
       final token = data['token'] as String?;
+      final localStorage = GetIt.I<LocalStorageService>();
+      await localStorage.setString('auth_user_email', email);
       if (token != null) {
-        final localStorage = GetIt.I<LocalStorageService>();
         await localStorage.setString(StorageConstants.token, token);
         await localStorage.setBool(StorageConstants.isLoggedIn, value: true);
       }

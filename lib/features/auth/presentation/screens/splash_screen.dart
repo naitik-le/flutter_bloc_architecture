@@ -4,6 +4,7 @@ import 'package:flutter_bloc_architecture/core/constants/app_strings.dart';
 import 'package:flutter_bloc_architecture/core/theme/app_colors.dart';
 import 'package:flutter_bloc_architecture/core/theme/app_spacing.dart';
 import 'package:flutter_bloc_architecture/core/theme/app_text_styles.dart';
+import 'package:flutter_bloc_architecture/core/widgets/loading_indicator.dart';
 import 'package:flutter_bloc_architecture/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_bloc_architecture/routes/app_routes.dart';
 
@@ -116,15 +117,7 @@ class _SplashScreenState extends State<SplashScreen>
                 const SizedBox(height: AppSpacing.xxxl),
 
                 // ── Progress indicator ──
-                const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColors.primary),
-                  ),
-                ),
+                const LoadingIndicator(size: 24),
               ],
             ),
           ),

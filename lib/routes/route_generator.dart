@@ -61,6 +61,7 @@ class RouteGenerator {
             providers: [
               BlocProvider(create: (_) => getIt<DashboardCubit>()),
               BlocProvider(create: (_) => getIt<SpacexBloc>()),
+              BlocProvider(create: (_) => getIt<AuthBloc>()),
             ],
             child: const DashboardScreen(),
           ),
@@ -108,8 +109,7 @@ class RouteGenerator {
   }
 
   /// Builds custom slide transitioning routes.
-  static PageRouteBuilder<dynamic> _buildRoute(Widget page,
-      RouteSettings settings,) {
+  static PageRouteBuilder<dynamic> _buildRoute(Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => page,
