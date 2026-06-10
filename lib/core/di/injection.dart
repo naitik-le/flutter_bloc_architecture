@@ -23,6 +23,12 @@ import 'package:flutter_bloc_architecture/features/profile/data/datasource/profi
 import 'package:flutter_bloc_architecture/features/profile/domain/repositories/profile_repository.dart';
 import 'package:flutter_bloc_architecture/features/profile/data/repository_impl/profile_repository_impl.dart';
 import 'package:flutter_bloc_architecture/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:flutter_bloc_architecture/features/crypto/domain/repositories/crypto_repository.dart';
+import 'package:flutter_bloc_architecture/features/crypto/domain/repositories/crypto_repository_impl.dart';
+import 'package:flutter_bloc_architecture/features/crypto/presentation/bloc/crypto_bloc.dart';
+import 'package:flutter_bloc_architecture/features/products/domain/repositories/product_repository.dart';
+import 'package:flutter_bloc_architecture/features/products/domain/repositories/product_repository_impl.dart';
+import 'package:flutter_bloc_architecture/features/products/presentation/bloc/product_bloc.dart';
 
 /// Global service locator instance.
 final GetIt getIt = GetIt.instance;
@@ -84,9 +90,7 @@ Future<void> setupDependencies() async {
 
   // ── Home Feature (SpaceX) ──
   // Repositories
-  getIt.registerLazySingleton<SpacexRepository>(
-    () => SpacexRepositoryImpl(),
-  );
+  getIt.registerLazySingleton<SpacexRepository>(() => SpacexRepositoryImpl());
 
   // BLoCs / Cubits
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
@@ -95,6 +99,21 @@ Future<void> setupDependencies() async {
   getIt.registerFactory<SpacexBloc>(() => SpacexBloc());
   getIt.registerFactory<CarouselCubit>(() => CarouselCubit());
   getIt.registerFactory<ProfileBloc>(() => ProfileBloc());
+
+  // ── Crypto Feature ──
+  // Repositories
+  getIt.registerLazySingleton<CryptoRepository>(
+    () => CryptoRepositoryImpl(),
+  );
+
+  // BLoCs
+  getIt.registerFactory<CryptoBloc>(
+    () => CryptoBloc(getIt<CryptoRepository>()),
+  );
+
+  // ── Products Feature ──
+  getIt.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl());
+  getIt.registerFactory<ProductBloc>(() => ProductBloc());
 
   AppLogger.info('✅ Dependencies setup complete');
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_architecture/core/di/injection.dart';
 import 'package:flutter_bloc_architecture/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:flutter_bloc_architecture/features/crypto/presentation/bloc/crypto_bloc.dart';
 import 'package:flutter_bloc_architecture/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter_bloc_architecture/features/auth/presentation/screens/register_screen.dart';
 import 'package:flutter_bloc_architecture/features/auth/presentation/screens/splash_screen.dart';
@@ -62,6 +63,7 @@ class RouteGenerator {
               BlocProvider(create: (_) => getIt<DashboardCubit>()),
               BlocProvider(create: (_) => getIt<SpacexBloc>()),
               BlocProvider(create: (_) => getIt<AuthBloc>()),
+              BlocProvider(create: (_) => getIt<CryptoBloc>()),
             ],
             child: const DashboardScreen(),
           ),
@@ -109,7 +111,8 @@ class RouteGenerator {
   }
 
   /// Builds custom slide transitioning routes.
-  static PageRouteBuilder<dynamic> _buildRoute(Widget page, RouteSettings settings) {
+  static PageRouteBuilder<dynamic> _buildRoute(
+      Widget page, RouteSettings settings) {
     return PageRouteBuilder(
       settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => page,

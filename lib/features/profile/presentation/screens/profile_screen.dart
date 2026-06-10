@@ -174,10 +174,11 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
               slivers: [
                 // ── Parallax / Collapsible Header ──
                 SliverAppBar(
-                  expandedHeight: 220,
+                  expandedHeight: 120,
                   pinned: true,
                   stretch: true,
-                  backgroundColor: theme.colorScheme.surface,
+                  backgroundColor: theme.scaffoldBackgroundColor,
+                  surfaceTintColor: theme.scaffoldBackgroundColor,
                   elevation: 0,
                   actions: [
                     ValueListenableBuilder<bool>(
@@ -186,7 +187,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                         return IconButton(
                           icon: Icon(
                             isEditing ? Icons.check_rounded : Icons.edit_rounded,
-                            color: Colors.white,
+                            color: theme.colorScheme.secondary,
                           ),
                           tooltip: isEditing ? 'Save Changes' : 'Edit Profile',
                           onPressed: () => _toggleEditMode(profile),
@@ -309,28 +310,37 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                             const SizedBox(height: AppSpacing.xl),
 
                             // ── Achievement XP Card ──
-                            _buildAchievementCard(theme, profile),
+                            AchievementCard(profile: profile),
                             const SizedBox(height: AppSpacing.md),
 
                             // ── Stats Explorer Grid ──
-                            _buildStatsGrid(theme),
+                            const StatsGrid(),
                             const SizedBox(height: AppSpacing.xl),
 
                             // ── Form fields card (Editable / Non-editable) ──
                             _buildSectionHeader(theme, 'Personal Info'),
                             const SizedBox(height: AppSpacing.xs),
-                            _buildPersonalInfoCard(theme, profile),
+                            PersonalInfoCard(
+                              isEditingNotifier: _isEditingNotifier,
+                              firstNameController: _firstNameController,
+                              lastNameController: _lastNameController,
+                              emailController: _emailController,
+                              profile: profile,
+                            ),
                             const SizedBox(height: AppSpacing.xl),
 
                             // ── Settings / Preferences ──
                             _buildSectionHeader(theme, 'SpaceX Preferences'),
                             const SizedBox(height: AppSpacing.xs),
-                            _buildSpacePreferencesCard(theme, profile),
+                            SpacePreferencesCard(
+                              selectedRocketNotifier: _selectedRocketNotifier,
+                              profile: profile,
+                            ),
                             const SizedBox(height: AppSpacing.xl),
 
                             _buildSectionHeader(theme, 'App Settings'),
                             const SizedBox(height: AppSpacing.xs),
-                            _buildAppSettingsCard(theme),
+                            const AppSettingsCard(),
                             const SizedBox(height: AppSpacing.xl),
 
                             // ── Logout Action ──
@@ -367,7 +377,48 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
     );
   }
 
-  Widget _buildAchievementCard(ThemeData theme, ProfileEntity profile) {
+  void _confirmLogout(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        title: const Text('Abort Mission'),
+        content: const Text('Are you sure you want to sign out and clear your cached coordinates?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogCtx),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogCtx);
+              // Clear profile and logout
+              context.read<ProfileBloc>().add(const ResetProfileEvent());
+              context.read<AuthBloc>().add(const PerformLogoutEvent());
+              // Force redirection to login route
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.login,
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: AppColors.error),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AchievementCard extends StatelessWidget {
+  final ProfileEntity profile;
+
+  const AchievementCard({super.key, required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     const maxXp = 1000;
     final progress = (profile.explorerXp / maxXp).clamp(0.0, 1.0);
 
@@ -442,50 +493,62 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       ),
     );
   }
+}
 
-  Widget _buildStatsGrid(ThemeData theme) {
-    return Row(
+class StatsGrid extends StatelessWidget {
+  const StatsGrid({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
       children: [
         Expanded(
-          child: _buildStatItem(
-            theme,
-            Icons.rocket_launch_rounded,
-            '18',
-            'Launches',
-            const Color(0xFFC87A24),
+          child: _StatItem(
+            icon: Icons.rocket_launch_rounded,
+            value: '18',
+            label: 'Launches',
+            accentColor: Color(0xFFC87A24),
           ),
         ),
-        const SizedBox(width: AppSpacing.sm),
+        SizedBox(width: AppSpacing.sm),
         Expanded(
-          child: _buildStatItem(
-            theme,
-            Icons.explore_rounded,
-            '4',
-            'Rockets',
-            const Color(0xFF5F6F52),
+          child: _StatItem(
+            icon: Icons.explore_rounded,
+            value: '4',
+            label: 'Rockets',
+            accentColor: Color(0xFF5F6F52),
           ),
         ),
-        const SizedBox(width: AppSpacing.sm),
+        SizedBox(width: AppSpacing.sm),
         Expanded(
-          child: _buildStatItem(
-            theme,
-            Icons.checklist_rtl_rounded,
-            '12',
-            'Missions',
-            const Color(0xFF5D7B93),
+          child: _StatItem(
+            icon: Icons.checklist_rtl_rounded,
+            value: '12',
+            label: 'Missions',
+            accentColor: Color(0xFF5D7B93),
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _buildStatItem(
-    ThemeData theme,
-    IconData icon,
-    String value,
-    String label,
-    Color accentColor,
-  ) {
+class _StatItem extends StatelessWidget {
+  final IconData icon;
+  final String value;
+  final String label;
+  final Color accentColor;
+
+  const _StatItem({
+    required this.icon,
+    required this.value,
+    required this.label,
+    required this.accentColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Card(
       elevation: 0,
       color: theme.colorScheme.surface,
@@ -524,8 +587,28 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       ),
     );
   }
+}
 
-  Widget _buildPersonalInfoCard(ThemeData theme, ProfileEntity profile) {
+class PersonalInfoCard extends StatelessWidget {
+  final ValueNotifier<bool> isEditingNotifier;
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
+  final TextEditingController emailController;
+  final ProfileEntity profile;
+
+  const PersonalInfoCard({
+    super.key,
+    required this.isEditingNotifier,
+    required this.firstNameController,
+    required this.lastNameController,
+    required this.emailController,
+    required this.profile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card(
       elevation: 0,
       color: theme.colorScheme.surface,
@@ -536,7 +619,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: ValueListenableBuilder<bool>(
-          valueListenable: _isEditingNotifier,
+          valueListenable: isEditingNotifier,
           builder: (context, isEditing, _) {
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
@@ -546,7 +629,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         CustomTextField(
-                          controller: _firstNameController,
+                          controller: firstNameController,
                           label: 'First Name',
                           hintText: 'Enter first name',
                           prefixIcon: Icons.badge_outlined,
@@ -554,7 +637,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                         ),
                         const SizedBox(height: AppSpacing.md),
                         CustomTextField(
-                          controller: _lastNameController,
+                          controller: lastNameController,
                           label: 'Last Name',
                           hintText: 'Enter last name',
                           prefixIcon: Icons.badge_outlined,
@@ -562,7 +645,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                         ),
                         const SizedBox(height: AppSpacing.md),
                         CustomTextField(
-                          controller: _emailController,
+                          controller: emailController,
                           label: 'Email Address',
                           hintText: 'Enter email',
                           prefixIcon: Icons.email_outlined,
@@ -574,25 +657,22 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                   : Column(
                       key: const ValueKey('view_info_tiles'),
                       children: [
-                        _buildInfoTile(
-                          theme,
-                          Icons.person_outline_rounded,
-                          'First Name',
-                          profile.firstName.isEmpty ? 'Not set' : profile.firstName,
+                        _InfoTile(
+                          icon: Icons.person_outline_rounded,
+                          label: 'First Name',
+                          value: profile.firstName.isEmpty ? 'Not set' : profile.firstName,
                         ),
                         const Divider(),
-                        _buildInfoTile(
-                          theme,
-                          Icons.person_outline_rounded,
-                          'Last Name',
-                          profile.lastName.isEmpty ? 'Not set' : profile.lastName,
+                        _InfoTile(
+                          icon: Icons.person_outline_rounded,
+                          label: 'Last Name',
+                          value: profile.lastName.isEmpty ? 'Not set' : profile.lastName,
                         ),
                         const Divider(),
-                        _buildInfoTile(
-                          theme,
-                          Icons.email_outlined,
-                          'Email Address',
-                          profile.email,
+                        _InfoTile(
+                          icon: Icons.email_outlined,
+                          label: 'Email Address',
+                          value: profile.email,
                         ),
                       ],
                     ),
@@ -602,13 +682,22 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       ),
     );
   }
+}
 
-  Widget _buildInfoTile(
-    ThemeData theme,
-    IconData icon,
-    String label,
-    String value,
-  ) {
+class _InfoTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _InfoTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
       child: Row(
@@ -638,8 +727,21 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       ),
     );
   }
+}
 
-  Widget _buildSpacePreferencesCard(ThemeData theme, ProfileEntity profile) {
+class SpacePreferencesCard extends StatelessWidget {
+  final ValueNotifier<String> selectedRocketNotifier;
+  final ProfileEntity profile;
+
+  const SpacePreferencesCard({
+    super.key,
+    required this.selectedRocketNotifier,
+    required this.profile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final rocketOptions = ['Falcon 9', 'Falcon Heavy', 'Starship'];
 
     return Card(
@@ -664,7 +766,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
 
             // Horizontal Selector Cards
             ValueListenableBuilder<String>(
-              valueListenable: _selectedRocketNotifier,
+              valueListenable: selectedRocketNotifier,
               builder: (context, selectedRocket, _) {
                 return Row(
                   children: rocketOptions.map((rocket) {
@@ -674,7 +776,7 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
                         padding: const EdgeInsets.symmetric(horizontal: 2),
                         child: InkWell(
                           onTap: () {
-                            _selectedRocketNotifier.value = rocket;
+                            selectedRocketNotifier.value = rocket;
                             // Instantly auto-save preference updates
                             final updated = ProfileEntity(
                               firstName: profile.firstName,
@@ -731,8 +833,15 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
       ),
     );
   }
+}
 
-  Widget _buildAppSettingsCard(ThemeData theme) {
+class AppSettingsCard extends StatelessWidget {
+  const AppSettingsCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card(
       elevation: 0,
       color: theme.colorScheme.surface,
@@ -824,39 +933,6 @@ class _ProfileScreenContentState extends State<_ProfileScreenContent> {
             ],
           );
         },
-      ),
-    );
-  }
-
-  void _confirmLogout(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (dialogCtx) => AlertDialog(
-        title: const Text('Abort Mission'),
-        content: const Text('Are you sure you want to sign out and clear your cached coordinates?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogCtx),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(dialogCtx);
-              // Clear profile and logout
-              context.read<ProfileBloc>().add(const ResetProfileEvent());
-              context.read<AuthBloc>().add(const PerformLogoutEvent());
-              // Force redirection to login route
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                Routes.login,
-                (route) => false,
-              );
-            },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: AppColors.error),
-            ),
-          ),
-        ],
       ),
     );
   }

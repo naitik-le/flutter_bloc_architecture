@@ -269,23 +269,19 @@ class RocketDetailScreen extends StatelessWidget {
       ),
     ];
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 1.1,
-        crossAxisSpacing: AppSpacing.xs,
-        mainAxisSpacing: AppSpacing.xs,
-      ),
-      itemCount: specs.length,
-      itemBuilder: (context, index) {
-        final spec = specs[index];
+    final screenWidth = MediaQuery.of(context).size.width;
+    final itemWidth = (screenWidth - (AppSpacing.md * 2) - (AppSpacing.xs * 2)) / 3;
+
+    return Wrap(
+      spacing: AppSpacing.xs,
+      runSpacing: AppSpacing.xs,
+      children: specs.map((spec) {
         final theme = Theme.of(context);
         return Container(
+          width: itemWidth,
+          height: itemWidth / 1.1,
           decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest
-                .withValues(alpha: 0.5),
+            color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
             border: Border.all(
                 color: theme.dividerTheme.color ?? AppColors.dividerLight),
             borderRadius: AppRadius.circularMd,
@@ -320,7 +316,7 @@ class RocketDetailScreen extends StatelessWidget {
             ],
           ),
         );
-      },
+      }).toList(),
     );
   }
 
