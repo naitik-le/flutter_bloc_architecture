@@ -25,12 +25,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(
         status: ProfileStatus.success,
         profile: profile,
-      ));
+      ),);
     } catch (e) {
       emit(state.copyWith(
         status: ProfileStatus.failure,
         errorMsg: e.toString(),
-      ));
+      ),);
     }
   }
 
@@ -44,12 +44,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(
         status: ProfileStatus.success,
         profile: updated,
-      ));
+      ),);
     } catch (e) {
       emit(state.copyWith(
         status: ProfileStatus.failure,
         errorMsg: e.toString(),
-      ));
+      ),);
     }
   }
 
@@ -65,7 +65,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(
         status: ProfileStatus.failure,
         errorMsg: e.toString(),
-      ));
+      ),);
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 /// Data model representing a SpaceX launch.
@@ -100,6 +101,18 @@ class LaunchModel extends Equatable {
           )
           .toList(),
     );
+  }
+
+  /// Parses a raw JSON string into a list of [LaunchModel]s, pre-sorting them in reverse chronological order.
+  /// Designed to be executed in a background isolate using `compute`.
+  static List<LaunchModel> parseLaunchesFromJson(String jsonString) {
+    final decoded = jsonDecode(jsonString) as List<dynamic>;
+    final launches = decoded
+        .map((e) => LaunchModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+    // Pre-sort launches by date_unix in descending order (latest first)
+    launches.sort((a, b) => b.dateUnix.compareTo(a.dateUnix));
+    return launches;
   }
 
   @override

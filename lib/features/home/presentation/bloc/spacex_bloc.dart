@@ -9,6 +9,7 @@ import 'package:flutter_bloc_architecture/features/home/data/models/rocket_model
 import 'package:flutter_bloc_architecture/features/home/domain/repositories/spacex_repository.dart';
 
 part 'spacex_event.dart';
+
 part 'spacex_state.dart';
 
 /// BLoC for handling SpaceX data events and state transitions.
@@ -24,26 +25,25 @@ class SpacexBloc extends Bloc<SpacexEvent, SpacexState> {
   }
 
   Future<void> _onFetchRockets(
-    FetchRocketsEvent event,
-    Emitter<SpacexState> emit,
-  ) async {
-    emit(state.copyWith(isLoading: true, isFailed: false, errorMsg: null));
+      FetchRocketsEvent event, Emitter<SpacexState> emit,) async {
+    emit(state.copyWith(
+        isRocketsLoading: true, isRocketsFailed: false, rocketsErrorMsg: null,),);
 
     final response = await _repository.getRockets();
 
     if (response.status == ApiStatus.error) {
       emit(
         state.copyWith(
-          isLoading: false,
-          isFailed: true,
-          errorMsg: response.errorMsg ?? 'Failed to fetch rockets',
+          isRocketsLoading: false,
+          isRocketsFailed: true,
+          rocketsErrorMsg: response.errorMsg ?? 'Failed to fetch rockets',
         ),
       );
     } else {
       emit(
         state.copyWith(
-          isLoading: false,
-          isFailed: false,
+          isRocketsLoading: false,
+          isRocketsFailed: false,
           rockets: response.data ?? [],
         ),
       );
@@ -54,23 +54,26 @@ class SpacexBloc extends Bloc<SpacexEvent, SpacexState> {
     FetchLaunchesEvent event,
     Emitter<SpacexState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true, isFailed: false, errorMsg: null));
+    emit(state.copyWith(
+        isLaunchesLoading: true,
+        isLaunchesFailed: false,
+        launchesErrorMsg: null,),);
 
     final response = await _repository.getLaunches();
 
     if (response.status == ApiStatus.error) {
       emit(
         state.copyWith(
-          isLoading: false,
-          isFailed: true,
-          errorMsg: response.errorMsg ?? 'Failed to fetch launches',
+          isLaunchesLoading: false,
+          isLaunchesFailed: true,
+          launchesErrorMsg: response.errorMsg ?? 'Failed to fetch launches',
         ),
       );
     } else {
       emit(
         state.copyWith(
-          isLoading: false,
-          isFailed: false,
+          isLaunchesLoading: false,
+          isLaunchesFailed: false,
           launches: response.data ?? [],
         ),
       );

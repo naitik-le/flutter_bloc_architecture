@@ -15,19 +15,33 @@ class AppErrorWidget extends StatelessWidget {
   /// Optional retry callback. If provided, a retry button is shown.
   final VoidCallback? onRetry;
 
-  /// Optional icon to display. Defaults to error_outline.
-  final IconData icon;
+  /// Optional icon to display. If null, it is automatically resolved based on [message].
+  final IconData? icon;
 
   /// Creates an [AppErrorWidget].
   const AppErrorWidget({
     super.key,
     this.message = AppStrings.somethingWentWrong,
     this.onRetry,
-    this.icon = Icons.error_outline_rounded,
+    this.icon,
   });
+
+  IconData _selectIcon() {
+    if (icon != null) return icon!;
+
+    final lowerMessage = message.toLowerCase();
+    if (lowerMessage.contains('time')) {
+      return Icons.hourglass_empty_rounded;
+    } else if (lowerMessage.contains('internet') ||
+        lowerMessage.contains('connection')) {
+      return Icons.wifi_off_rounded;
+    }
+    return Icons.error_outline_rounded;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final displayIcon = _selectIcon();
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -36,7 +50,7 @@ class AppErrorWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              icon,
+              displayIcon,
               size: 64,
               color: AppColors.error,
             ),

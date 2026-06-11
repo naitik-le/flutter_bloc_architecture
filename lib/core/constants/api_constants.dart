@@ -54,8 +54,8 @@ class ApiConstants {
   static const String spacexBaseUrl = 'https://api.spacexdata.com';
 
   /// SpaceX rockets list endpoint path.
-  static const String spacexRockets = '/v4/rockets';
+  static const String spacexRockets = '/v5/rockets';
 
   /// SpaceX launches list endpoint path.
-  static const String spacexLaunches = '/v4/launches';
+  static const String spacexLaunches = '/v5/launches';
 }

@@ -61,4 +61,15 @@ extension DateExtensions on DateTime {
         month == yesterday.month &&
         day == yesterday.day;
   }
+
+  // ── Time Formats (24-hour) ──
+
+  /// Formats as `HH:mm:ss` (e.g., `14:30:05`) — 24-hour with seconds.
+  String get time24WithSeconds => DateFormat('HH:mm:ss').format(this);
+
+  /// Formats as `HH:mm` (e.g., `14:30`) — 24-hour, hour and minute only.
+  String get time24HourMinute => DateFormat('HH:mm').format(this);
+
+  /// Formats as `ss.SSS` (e.g., `05.123`) — seconds with milliseconds.
+  String get timeSecondsMillis => DateFormat('ss.SSS').format(this);
 }

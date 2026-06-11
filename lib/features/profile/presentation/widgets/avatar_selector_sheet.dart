@@ -126,84 +126,85 @@ class AvatarSelectorSheet extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
 
           // Avatar Grid
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: spaceAvatars.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: AppSpacing.md,
-              mainAxisSpacing: AppSpacing.md,
-              childAspectRatio: 0.85,
-            ),
-            itemBuilder: (context, index) {
+          Wrap(
+            spacing: AppSpacing.md,
+            runSpacing: AppSpacing.md,
+            alignment: WrapAlignment.center,
+            children: List.generate(spaceAvatars.length, (index) {
               final avatar = spaceAvatars[index];
               final isSelected = avatar.id == currentAvatarId;
+              final screenWidth = MediaQuery.of(context).size.width;
+              // Calculate 3-column split accounting for 16px horizontal padding and spacing
+              final itemWidth = (screenWidth - (AppSpacing.md * 2) - (AppSpacing.md * 2)) / 3;
 
-              return InkWell(
-                onTap: () {
-                  onAvatarSelected(avatar);
-                  Navigator.pop(context);
-                },
-                borderRadius: AppRadius.circularMd,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? theme.colorScheme.primary.withValues(alpha: 0.08)
-                        : Colors.transparent,
-                    borderRadius: AppRadius.circularMd,
-                    border: Border.all(
+              return SizedBox(
+                width: itemWidth,
+                height: itemWidth / 0.85,
+                child: InkWell(
+                  onTap: () {
+                    onAvatarSelected(avatar);
+                    Navigator.pop(context);
+                  },
+                  borderRadius: AppRadius.circularMd,
+                  child: Container(
+                    decoration: BoxDecoration(
                       color: isSelected
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.outlineVariant,
-                      width: isSelected ? 2 : 1,
+                          ? theme.colorScheme.primary.withValues(alpha: 0.08)
+                          : Colors.transparent,
+                      borderRadius: AppRadius.circularMd,
+                      border: Border.all(
+                        color: isSelected
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.outlineVariant,
+                        width: isSelected ? 2 : 1,
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Avatar Icon Circle with Gradient
-                      Container(
-                        width: 64,
-                        height: 64,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: avatar.gradient,
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  avatar.gradient.first.withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Avatar Icon Circle with Gradient
+                        Container(
+                          width: 64,
+                          height: 64,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: avatar.gradient,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
-                          ],
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    avatar.gradient.first.withValues(alpha: 0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Icon(
+                            avatar.icon,
+                            color: AppColors.white,
+                            size: 32,
+                          ),
                         ),
-                        child: Icon(
-                          avatar.icon,
-                          color: AppColors.white,
-                          size: 32,
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          avatar.name,
+                          style: AppTextStyles.labelMedium.copyWith(
+                            fontWeight:
+                                isSelected ? FontWeight.bold : FontWeight.w500,
+                            color: isSelected
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.sm),
-                      Text(
-                        avatar.name,
-                        style: AppTextStyles.labelMedium.copyWith(
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.w500,
-                          color: isSelected
-                              ? theme.colorScheme.primary
-                              : theme.colorScheme.onSurface,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
-            },
+            }),
           ),
           const SizedBox(height: AppSpacing.md),
         ],

@@ -23,7 +23,7 @@ class CustomBottomNavBar extends StatelessWidget {
     final theme = Theme.of(context);
     final activeColor = theme.colorScheme.primary;
     final inactiveColor =
-        theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
+    theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(
@@ -62,15 +62,24 @@ class CustomBottomNavBar extends StatelessWidget {
           _buildNavItem(
             context: context,
             index: 1,
-            icon: CupertinoIcons.chat_bubble_text,
-            activeIcon: CupertinoIcons.chat_bubble_text_fill,
-            label: 'Chat',
+            icon: CupertinoIcons.shopping_cart,
+            activeIcon: CupertinoIcons.cart_fill,
+            label: 'Products',
             activeColor: activeColor,
             inactiveColor: inactiveColor,
           ),
           _buildNavItem(
             context: context,
             index: 2,
+            icon: CupertinoIcons.chart_bar,
+            activeIcon: CupertinoIcons.chart_bar_fill,
+            label: 'Crypto',
+            activeColor: activeColor,
+            inactiveColor: inactiveColor,
+          ),
+          _buildNavItem(
+            context: context,
+            index: 3,
             icon: CupertinoIcons.person_crop_circle,
             activeIcon: CupertinoIcons.person_crop_circle_fill,
             label: 'Profile',

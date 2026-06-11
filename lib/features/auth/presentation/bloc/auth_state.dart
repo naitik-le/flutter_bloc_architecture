@@ -4,7 +4,7 @@ part of 'auth_bloc.dart';
 ///
 /// Represents the authentication state of the application using status flags.
 @immutable
-class AuthState {
+class AuthState extends Equatable {
   /// Whether an authentication request is in progress.
   final bool isLoading;
 
@@ -32,4 +32,14 @@ class AuthState {
     this.isLoggedOut = false,
     this.user,
   });
+
+  @override
+  List<Object?> get props => [
+        isLoading,
+        errorMsg,
+        isCompleted,
+        isFailed,
+        isLoggedOut,
+        user,
+      ];
 }
