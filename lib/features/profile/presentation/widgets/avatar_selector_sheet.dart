@@ -148,14 +148,10 @@ class AvatarSelectorSheet extends StatelessWidget {
                   borderRadius: AppRadius.circularMd,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? theme.colorScheme.primary.withValues(alpha: 0.08)
-                          : Colors.transparent,
+                      color: isSelected ? theme.colorScheme.primary.withValues(alpha: 0.08) : Colors.transparent,
                       borderRadius: AppRadius.circularMd,
                       border: Border.all(
-                        color: isSelected
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.outlineVariant,
+                        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
                         width: isSelected ? 2 : 1,
                       ),
                     ),
@@ -175,8 +171,7 @@ class AvatarSelectorSheet extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color:
-                                    avatar.gradient.first.withValues(alpha: 0.3),
+                                color: avatar.gradient.first.withValues(alpha: 0.3),
                                 blurRadius: 8,
                                 offset: const Offset(0, 4),
                               ),
@@ -192,11 +187,8 @@ class AvatarSelectorSheet extends StatelessWidget {
                         Text(
                           avatar.name,
                           style: AppTextStyles.labelMedium.copyWith(
-                            fontWeight:
-                                isSelected ? FontWeight.bold : FontWeight.w500,
-                            color: isSelected
-                                ? theme.colorScheme.primary
-                                : theme.colorScheme.onSurface,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
                           ),
                         ),
                       ],

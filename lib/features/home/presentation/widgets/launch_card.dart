@@ -82,8 +82,7 @@ class LaunchCard extends StatelessWidget {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    if (launch.details != null &&
-                        launch.details!.isNotEmpty) ...[
+                    if (launch.details != null && launch.details!.isNotEmpty) ...[
                       const SizedBox(height: AppSpacing.xxs),
                       Text(
                         launch.details!,
@@ -115,8 +114,11 @@ class LaunchCard extends StatelessWidget {
 
   Widget _buildStatusIcon(BuildContext context) {
     if (launch.upcoming) {
-      return const Icon(Icons.hourglass_top_rounded,
-          size: 18, color: AppColors.info,);
+      return const Icon(
+        Icons.hourglass_top_rounded,
+        size: 18,
+        color: AppColors.info,
+      );
     } else if (launch.success == true) {
       return const Icon(
         Icons.check_circle_rounded,

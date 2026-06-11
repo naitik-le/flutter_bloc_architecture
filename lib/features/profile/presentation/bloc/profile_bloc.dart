@@ -22,15 +22,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(state.copyWith(status: ProfileStatus.loading));
     try {
       final profile = await _repository.getProfile();
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: profile,
-      ),);
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: profile,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMsg: e.toString(),
-      ),);
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMsg: e.toString(),
+        ),
+      );
     }
   }
 
@@ -41,15 +45,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(state.copyWith(status: ProfileStatus.loading));
     try {
       final updated = await _repository.updateProfile(event.profile);
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: updated,
-      ),);
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: updated,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMsg: e.toString(),
-      ),);
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMsg: e.toString(),
+        ),
+      );
     }
   }
 
@@ -62,10 +70,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await _repository.clearProfile();
       emit(const ProfileState(status: ProfileStatus.initial));
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMsg: e.toString(),
-      ),);
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMsg: e.toString(),
+        ),
+      );
     }
   }
 }

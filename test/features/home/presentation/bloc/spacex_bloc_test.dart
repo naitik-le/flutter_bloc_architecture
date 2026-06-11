@@ -9,10 +9,8 @@ import 'package:get_it/get_it.dart';
 
 // Manual Fake class to stub SpacexRepository responses without needing mockito build_runner code-generation.
 class FakeSpacexRepository extends SpacexRepository {
-  ApiResponse<List<RocketModel>> rocketsResponse =
-      ApiResponse.success(data: const []);
-  ApiResponse<List<LaunchModel>> launchesResponse =
-      ApiResponse.success(data: const []);
+  ApiResponse<List<RocketModel>> rocketsResponse = ApiResponse.success(data: const []);
+  ApiResponse<List<LaunchModel>> launchesResponse = ApiResponse.success(data: const []);
 
   int rocketsCallCount = 0;
   int launchesCallCount = 0;
@@ -66,29 +64,31 @@ void main() {
     blocTest<SpacexBloc, SpacexState>(
       'FetchRocketsEvent emits rockets loading and success states',
       build: () {
-        fakeRepository.rocketsResponse = ApiResponse.success(data: [
-          const RocketModel(
-            id: '1',
-            name: 'Falcon 9',
-            type: 'rocket',
-            active: true,
-            stages: 2,
-            boosters: 0,
-            costPerLaunch: 67000000,
-            successRatePct: 98,
-            firstFlight: '2010-06-04',
-            country: 'USA',
-            company: 'SpaceX',
-            heightMeters: 70.0,
-            diameterMeters: 3.7,
-            massKg: 549000,
-            enginesCount: 9,
-            engineType: 'merlin',
-            description: 'Falcon 9 description',
-            wikipedia: 'wikipedia.org',
-            flickrImages: [],
-          ),
-        ],);
+        fakeRepository.rocketsResponse = ApiResponse.success(
+          data: [
+            const RocketModel(
+              id: '1',
+              name: 'Falcon 9',
+              type: 'rocket',
+              active: true,
+              stages: 2,
+              boosters: 0,
+              costPerLaunch: 67000000,
+              successRatePct: 98,
+              firstFlight: '2010-06-04',
+              country: 'USA',
+              company: 'SpaceX',
+              heightMeters: 70.0,
+              diameterMeters: 3.7,
+              massKg: 549000,
+              enginesCount: 9,
+              engineType: 'merlin',
+              description: 'Falcon 9 description',
+              wikipedia: 'wikipedia.org',
+              flickrImages: [],
+            ),
+          ],
+        );
         return SpacexBloc();
       },
       act: (bloc) => bloc.add(const FetchRocketsEvent()),
@@ -108,26 +108,28 @@ void main() {
     blocTest<SpacexBloc, SpacexState>(
       'FetchLaunchesEvent emits launches loading and success states',
       build: () {
-        fakeRepository.launchesResponse = ApiResponse.success(data: [
-          const LaunchModel(
-            id: '1',
-            name: 'FalconSat',
-            flightNumber: 1,
-            dateUtc: '2006-03-24',
-            dateUnix: 1143239400,
-            success: false,
-            upcoming: false,
-            details: 'engine failure',
-            rocketId: '1',
-            patchSmall: null,
-            patchLarge: null,
-            webcast: null,
-            youtubeId: null,
-            wikipedia: null,
-            article: null,
-            failures: [],
-          ),
-        ],);
+        fakeRepository.launchesResponse = ApiResponse.success(
+          data: [
+            const LaunchModel(
+              id: '1',
+              name: 'FalconSat',
+              flightNumber: 1,
+              dateUtc: '2006-03-24',
+              dateUnix: 1143239400,
+              success: false,
+              upcoming: false,
+              details: 'engine failure',
+              rocketId: '1',
+              patchSmall: null,
+              patchLarge: null,
+              webcast: null,
+              youtubeId: null,
+              wikipedia: null,
+              article: null,
+              failures: [],
+            ),
+          ],
+        );
         return SpacexBloc();
       },
       act: (bloc) => bloc.add(const FetchLaunchesEvent()),

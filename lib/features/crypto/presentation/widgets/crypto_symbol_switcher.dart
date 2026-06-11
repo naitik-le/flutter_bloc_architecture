@@ -73,9 +73,8 @@ class _SymbolChip extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: isSelected
-            ? theme.colorScheme.primary
-            : theme.colorScheme.surface,
+        color:
+            isSelected ? theme.colorScheme.primary : theme.colorScheme.surface,
         borderRadius: AppRadius.circularFull,
         border: Border.all(
           color: isSelected
@@ -112,8 +111,7 @@ class _SymbolChip extends StatelessWidget {
                     color: isSelected
                         ? AppColors.textOnPrimary
                         : theme.colorScheme.onSurface,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.w500,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   ),
                 ),
               ],

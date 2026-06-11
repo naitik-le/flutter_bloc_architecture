@@ -43,12 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
             indicatorColor: AppColors.secondary,
             indicatorWeight: 3,
             labelColor: Theme.of(context).colorScheme.onSurface,
-            unselectedLabelColor:
-                Theme.of(context).colorScheme.onSurfaceVariant,
-            labelStyle: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(fontWeight: FontWeight.w600),
+            unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
+            labelStyle: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             tabs: const [
               Tab(
                 icon: Icon(Icons.rocket_launch_rounded, size: 20),
@@ -86,8 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state.isRocketsFailed && state.rockets.isEmpty) {
           return AppErrorWidget(
             message: state.rocketsErrorMsg ?? 'Failed to load rockets',
-            onRetry: () =>
-                context.read<SpacexBloc>().add(const FetchRocketsEvent()),
+            onRetry: () => context.read<SpacexBloc>().add(const FetchRocketsEvent()),
           );
         }
 
@@ -103,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: 80),
             physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),),
+              parent: BouncingScrollPhysics(),
+            ),
             itemCount: state.rockets.length,
             itemBuilder: (context, index) {
               return RocketCard(rocket: state.rockets[index]);
@@ -129,8 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (state.isLaunchesFailed && state.launches.isEmpty) {
           return AppErrorWidget(
             message: state.launchesErrorMsg ?? 'Failed to load launches',
-            onRetry: () =>
-                context.read<SpacexBloc>().add(const FetchLaunchesEvent()),
+            onRetry: () => context.read<SpacexBloc>().add(const FetchLaunchesEvent()),
           );
         }
 
@@ -146,7 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: 80),
             physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),),
+              parent: BouncingScrollPhysics(),
+            ),
             itemCount: state.launches.length,
             itemBuilder: (context, index) {
               return LaunchCard(launch: state.launches[index]);
