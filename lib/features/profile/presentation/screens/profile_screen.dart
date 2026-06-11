@@ -937,34 +937,3 @@ class AppSettingsCard extends StatelessWidget {
     );
   }
 }
-
-/// Star field custom painter for the collapsible background
-class _StarsPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    final List<Offset> starLocations = [
-      Offset(size.width * 0.1, size.height * 0.2),
-      Offset(size.width * 0.25, size.height * 0.15),
-      Offset(size.width * 0.35, size.height * 0.45),
-      Offset(size.width * 0.55, size.height * 0.2),
-      Offset(size.width * 0.75, size.height * 0.35),
-      Offset(size.width * 0.85, size.height * 0.15),
-      Offset(size.width * 0.9, size.height * 0.5),
-      Offset(size.width * 0.15, size.height * 0.7),
-      Offset(size.width * 0.45, size.height * 0.75),
-      Offset(size.width * 0.7, size.height * 0.8),
-    ];
-
-    for (var i = 0; i < starLocations.length; i++) {
-      final radius = (i % 3 == 0) ? 2.0 : 1.2;
-      canvas.drawCircle(starLocations[i], radius, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
