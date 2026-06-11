@@ -25,9 +25,16 @@ class SpacexBloc extends Bloc<SpacexEvent, SpacexState> {
   }
 
   Future<void> _onFetchRockets(
-      FetchRocketsEvent event, Emitter<SpacexState> emit,) async {
-    emit(state.copyWith(
-        isRocketsLoading: true, isRocketsFailed: false, rocketsErrorMsg: null,),);
+    FetchRocketsEvent event,
+    Emitter<SpacexState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        isRocketsLoading: true,
+        isRocketsFailed: false,
+        rocketsErrorMsg: null,
+      ),
+    );
 
     final response = await _repository.getRockets();
 
@@ -54,10 +61,13 @@ class SpacexBloc extends Bloc<SpacexEvent, SpacexState> {
     FetchLaunchesEvent event,
     Emitter<SpacexState> emit,
   ) async {
-    emit(state.copyWith(
+    emit(
+      state.copyWith(
         isLaunchesLoading: true,
         isLaunchesFailed: false,
-        launchesErrorMsg: null,),);
+        launchesErrorMsg: null,
+      ),
+    );
 
     final response = await _repository.getLaunches();
 

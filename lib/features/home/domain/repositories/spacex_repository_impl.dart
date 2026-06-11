@@ -20,10 +20,8 @@ class SpacexRepositoryImpl extends SpacexRepository {
       : _dio = Dio(
           BaseOptions(
             baseUrl: ApiConstants.spacexBaseUrl,
-            connectTimeout:
-                const Duration(milliseconds: ApiConstants.connectionTimeout),
-            receiveTimeout:
-                const Duration(milliseconds: ApiConstants.receiveTimeout),
+            connectTimeout: const Duration(milliseconds: ApiConstants.connectionTimeout),
+            receiveTimeout: const Duration(milliseconds: ApiConstants.receiveTimeout),
             headers: {
               'Content-Type': ApiConstants.contentType,
               'Accept': ApiConstants.accept,
@@ -36,9 +34,7 @@ class SpacexRepositoryImpl extends SpacexRepository {
     try {
       final response = await _dio.get(ApiConstants.spacexRockets);
       final data = response.data as List<dynamic>? ?? [];
-      final rockets = data
-          .map((e) => RocketModel.fromJson(e as Map<String, dynamic>))
-          .toList();
+      final rockets = data.map((e) => RocketModel.fromJson(e as Map<String, dynamic>)).toList();
       return ApiResponse.success(data: rockets);
     } on DioException catch (error) {
       final message = NetworkExceptions.fromDioException(error).message;
@@ -59,15 +55,15 @@ class SpacexRepositoryImpl extends SpacexRepository {
       }
 
       // Decode and map raw JSON to models in a background isolate
-      final launches =
-          await compute(LaunchModel.parseLaunchesFromJson, rawJson);
+      final launches = await compute(LaunchModel.parseLaunchesFromJson, rawJson);
       return ApiResponse.success(data: launches);
     } on DioException catch (error) {
       final message = NetworkExceptions.fromDioException(error).message;
       return ApiResponse.error(errorMsg: message);
     } catch (error) {
       return ApiResponse.error(
-          errorMsg: 'An unexpected error occurred: $error',);
+        errorMsg: 'An unexpected error occurred: $error',
+      );
     }
   }
 }

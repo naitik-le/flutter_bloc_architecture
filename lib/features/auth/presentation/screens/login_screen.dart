@@ -50,8 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (state.isCompleted) {
                   context.pushNamedAndRemoveAll(Routes.dashboard);
                 } else if (state.isFailed) {
-                  context.showSnackBar(state.errorMsg ?? '',
-                      type: SnackBarType.error,);
+                  context.showSnackBar(
+                    state.errorMsg ?? '',
+                    type: SnackBarType.error,
+                  );
                 }
               },
               child: Form(

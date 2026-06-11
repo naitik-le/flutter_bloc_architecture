@@ -22,8 +22,7 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final activeColor = theme.colorScheme.primary;
-    final inactiveColor =
-    theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
+    final inactiveColor = theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(
@@ -114,9 +113,7 @@ class CustomBottomNavBar extends StatelessWidget {
           vertical: AppSpacing.xs,
         ),
         decoration: BoxDecoration(
-          color: isSelected
-              ? activeColor.withValues(alpha: 0.1)
-              : Colors.transparent,
+          color: isSelected ? activeColor.withValues(alpha: 0.1) : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -139,9 +136,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 ),
               ),
               secondChild: const SizedBox.shrink(),
-              crossFadeState: isSelected
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
+              crossFadeState: isSelected ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             ),
           ],
         ),

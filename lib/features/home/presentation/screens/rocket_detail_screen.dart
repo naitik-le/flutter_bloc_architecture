@@ -32,8 +32,7 @@ class RocketDetailScreen extends StatelessWidget {
           children: [
             _buildImageSection(context),
             Padding(
-              padding: const EdgeInsets.all(AppSpacing.md)
-                  .copyWith(bottom: AppSpacing.xxl),
+              padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: AppSpacing.xxl),
               child: Column(
                 spacing: AppSpacing.xl,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,9 +109,7 @@ class RocketDetailScreen extends StatelessWidget {
                         width: dotIndex == activeIndex ? 16 : 6,
                         height: 6,
                         decoration: BoxDecoration(
-                          color: dotIndex == activeIndex
-                              ? AppColors.white
-                              : AppColors.white.withValues(alpha: 0.4),
+                          color: dotIndex == activeIndex ? AppColors.white : AppColors.white.withValues(alpha: 0.4),
                           borderRadius: AppRadius.circularFull,
                         ),
                       ),
@@ -136,9 +133,7 @@ class RocketDetailScreen extends StatelessWidget {
             StatusBadge(
               label: rocket.active ? 'Active' : 'Retired',
               color: rocket.active ? AppColors.success : AppColors.error,
-              icon: rocket.active
-                  ? Icons.check_circle_rounded
-                  : Icons.cancel_rounded,
+              icon: rocket.active ? Icons.check_circle_rounded : Icons.cancel_rounded,
             ),
             const SizedBox(width: AppSpacing.xs),
             StatusBadge(
@@ -181,10 +176,7 @@ class RocketDetailScreen extends StatelessWidget {
       children: [
         Text(
           'Details',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: AppSpacing.sm),
         DetailInfoCard(
@@ -283,7 +275,8 @@ class RocketDetailScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
             border: Border.all(
-                color: theme.dividerTheme.color ?? AppColors.dividerLight,),
+              color: theme.dividerTheme.color ?? AppColors.dividerLight,
+            ),
             borderRadius: AppRadius.circularMd,
           ),
           padding: const EdgeInsets.all(AppSpacing.sm),

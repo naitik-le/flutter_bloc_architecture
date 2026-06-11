@@ -149,7 +149,6 @@ class CryptoPriceCard extends StatelessWidget {
     if (currentTrade.price < previousPrice!) return _PriceDirection.down;
     return _PriceDirection.neutral;
   }
-
 }
 
 /// Animated currency icon based on the base currency.
@@ -160,7 +159,6 @@ class _CurrencyIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String iconText;
     Color bgColor;
 

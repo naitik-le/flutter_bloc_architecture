@@ -42,19 +42,21 @@ void main() {
     blocTest<ProductBloc, ProductState>(
       'FetchProductsEvent emits loading and success states',
       build: () {
-        fakeRepository.productsResponse = ApiResponse.success(data: [
-          const ProductModel(
-            id: 1,
-            title: 'Test Product',
-            description: 'This is a test product',
-            price: 19.99,
-            rating: 4.5,
-            brand: 'Test Brand',
-            category: 'test',
-            thumbnail: 'https://test.com/thumbnail.png',
-            images: [],
-          ),
-        ],);
+        fakeRepository.productsResponse = ApiResponse.success(
+          data: [
+            const ProductModel(
+              id: 1,
+              title: 'Test Product',
+              description: 'This is a test product',
+              price: 19.99,
+              rating: 4.5,
+              brand: 'Test Brand',
+              category: 'test',
+              thumbnail: 'https://test.com/thumbnail.png',
+              images: [],
+            ),
+          ],
+        );
         return ProductBloc();
       },
       act: (bloc) => bloc.add(const FetchProductsEvent()),
