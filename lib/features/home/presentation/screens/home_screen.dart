@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: 80),
             physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
+                parent: BouncingScrollPhysics(),),
             itemCount: state.rockets.length,
             itemBuilder: (context, index) {
               return RocketCard(rocket: state.rockets[index]);
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView.builder(
             padding: const EdgeInsets.all(AppSpacing.md).copyWith(bottom: 80),
             physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics()),
+                parent: BouncingScrollPhysics(),),
             itemCount: state.launches.length,
             itemBuilder: (context, index) {
               return LaunchCard(launch: state.launches[index]);

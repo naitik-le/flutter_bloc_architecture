@@ -116,7 +116,7 @@ class LaunchCard extends StatelessWidget {
   Widget _buildStatusIcon(BuildContext context) {
     if (launch.upcoming) {
       return const Icon(Icons.hourglass_top_rounded,
-          size: 18, color: AppColors.info);
+          size: 18, color: AppColors.info,);
     } else if (launch.success == true) {
       return const Icon(
         Icons.check_circle_rounded,

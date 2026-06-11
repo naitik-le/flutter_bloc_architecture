@@ -283,7 +283,7 @@ class RocketDetailScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
             border: Border.all(
-                color: theme.dividerTheme.color ?? AppColors.dividerLight),
+                color: theme.dividerTheme.color ?? AppColors.dividerLight,),
             borderRadius: AppRadius.circularMd,
           ),
           padding: const EdgeInsets.all(AppSpacing.sm),

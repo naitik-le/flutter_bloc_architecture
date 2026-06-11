@@ -201,7 +201,7 @@ class _CurrencyIcon extends StatelessWidget {
 
 /// A pulsing "LIVE" indicator badge.
 class _LiveBadge extends StatefulWidget {
-  const _LiveBadge({super.key});
+  const _LiveBadge();
 
   @override
   State<_LiveBadge> createState() => _LiveBadgeState();

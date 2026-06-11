@@ -60,7 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 context.pushNamedAndRemoveAll(Routes.dashboard);
               } else if (state.isFailed) {
                 context.showSnackBar(state.errorMsg ?? '',
-                    type: SnackBarType.error);
+                    type: SnackBarType.error,);
               }
             },
             child: Form(

@@ -67,7 +67,7 @@ class SpacexRepositoryImpl extends SpacexRepository {
       return ApiResponse.error(errorMsg: message);
     } catch (error) {
       return ApiResponse.error(
-          errorMsg: 'An unexpected error occurred: $error');
+          errorMsg: 'An unexpected error occurred: $error',);
     }
   }
 }

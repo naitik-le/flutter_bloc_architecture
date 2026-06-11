@@ -112,7 +112,7 @@ class RouteGenerator {
 
   /// Builds custom slide transitioning routes.
   static PageRouteBuilder<dynamic> _buildRoute(
-      Widget page, RouteSettings settings) {
+      Widget page, RouteSettings settings,) {
     return PageRouteBuilder(
       settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => page,
